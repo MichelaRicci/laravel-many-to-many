@@ -29,5 +29,6 @@ class TechnologySeeder extends Seeder
             $new_techology->label = $technology['label'];
             $new_techology->color = $technology['color'];
             $new_techology->save();
+        }
     }
 }
