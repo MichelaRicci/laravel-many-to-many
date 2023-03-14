@@ -25,10 +25,10 @@ class TechnologySeeder extends Seeder
         ];
 
         foreach ($technologies as $technology) {
-            $new_techology = new Technology();
-            $new_techology->label = $technology['label'];
-            $new_techology->color = $technology['color'];
-            $new_techology->save();
+            $new_technology = new Technology();
+            $new_technology->label = $technology['label'];
+            $new_technology->color = $technology['color'];
+            $new_technology->save();
         }
     }
 }
