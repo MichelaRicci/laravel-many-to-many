@@ -34,7 +34,7 @@ class ProjectController extends Controller
     {
         $project = new Project();
         $types = Type::all();
-        $techs = Technology::all();
+        $technologies = Technology::all();
         return view('admin.projects.create', compact('types', 'technologies'));
     }
 
@@ -77,9 +77,7 @@ class ProjectController extends Controller
         $types = Type::all();
         $technologies = Technology::all();
 
-        $project_technologies = $project->technologies->pluck('id')->toArray();
-
-        return view('admin.projects.edit', compact('project', 'types', 'technologies', 'project_technologies'));
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -98,7 +96,7 @@ class ProjectController extends Controller
 
         $project->update($data);
 
-        if (Arr::exists($data, 'techs')) $project->technologies()->sync($data['techs']);
+        if (Arr::exists($data, 'technologies')) $project->technologies()->sync($data['technologies']);
         else $project->technologies()->detach();
         return to_route('admin.projects.show', $project->id);
     }

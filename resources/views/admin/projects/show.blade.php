@@ -15,6 +15,14 @@
           <figure class="text-center">
               <img src="{{ asset('storage/'.$project->image) }}" class="img-fluid" alt="{{ $project->title }}">
           </figure>
+          <div>
+            <p class="text-center">Languages: </p>
+            <div class="d-flex justify-content-center">
+                @foreach ($project->technologies as $technology)
+                <p class="bg-{{ $technology->color }} rounded-3 fs-6 p-2">{{ $technology>label }}</p>              
+                @endforeach
+            </div>
+          </div>
         </div>
         <div class="d-flex justify-content-center align-items-center mt-3 mb-5 gap-3">  
             <a href="{{ route('admin.projects.index') }}">
@@ -28,7 +36,7 @@
                 @csrf
                 <button class="btn btn-danger" type="submit">Delete</button>
             </form>
-         </div>
+        </div>
     </div>
 </section>
 @endsection

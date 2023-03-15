@@ -29,6 +29,16 @@
                 </div>
 
                 <div class= "col d-flex m-3">
+                    <label for="technology_id">Choose language</label>
+                    <select class="form-select" name="technology_id" id="technology_id">
+                        <option value="">None</option>
+                        @foreach($technologies as $technology)
+                        <option value="{{ $technology->label }}">{{ $technology->label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class= "col d-flex m-3">
                     <label for="github">Link github</label>
                     <input class="ms-2" type="text" id="github" name="github" placeholder="Link github" required />
                 </div>
