@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -23,6 +24,7 @@ class ProjectController extends Controller
         $projects = Project::all();
 
         return view('admin.projects.index', compact('projects'));
+
     }
 
     /**
@@ -31,8 +33,9 @@ class ProjectController extends Controller
     public function create(Project $project)
     {
         $project = new Project();
-        $types = Type::orderBy('label')->get();
-        return view('admin.projects.create', compact('types'));
+        $types = Type::all();
+        $techs = Technology::all();
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -53,6 +56,8 @@ class ProjectController extends Controller
         $project->fill($data);
 
         $project->save();
+
+        if (Arr::exists($data, 'technologies')) $project->technologies()->attach($data['technologies']);
         return to_route('admin.projects.show', $project->id);
     }
     /**
@@ -69,8 +74,12 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        $types = Type::orderBy('label')->get();
-        return view('admin.projects.edit', compact('project'), compact('types'));
+        $types = Type::all();
+        $technologies = Technology::all();
+
+        $project_technologies = $project->technologies->pluck('id')->toArray();
+
+        return view('admin.projects.edit', compact('project', 'types', 'technologies', 'project_technologies'));
     }
 
     /**
@@ -88,6 +97,9 @@ class ProjectController extends Controller
         }
 
         $project->update($data);
+
+        if (Arr::exists($data, 'techs')) $project->technologies()->sync($data['techs']);
+        else $project->technologies()->detach();
         return to_route('admin.projects.show', $project->id);
     }
 
